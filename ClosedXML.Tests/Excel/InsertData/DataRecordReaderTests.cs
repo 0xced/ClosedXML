@@ -2,7 +2,11 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Data;
+#if NETCOREAPP
+using Microsoft.Data.SqlClient;
+#else
 using System.Data.SqlClient;
+#endif
 using System.Linq;
 
 namespace ClosedXML.Tests.Excel.InsertData

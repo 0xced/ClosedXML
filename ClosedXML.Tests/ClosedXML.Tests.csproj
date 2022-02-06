@@ -33,6 +33,10 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'">
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
