@@ -36,7 +36,6 @@ namespace ClosedXML.Tests.Excel
             var fill1 = new XLFill { PatternType = XLFillPatternValues.Solid, BackgroundColor = XLColor.Blue };
             var fill2 = new XLFill { PatternType = XLFillPatternValues.Solid, BackgroundColor = XLColor.Red };
             Assert.IsFalse(fill1.Equals(fill2));
-            Assert.AreNotEqual(fill1.GetHashCode(), fill2.GetHashCode());
         }
 
         [Test]
