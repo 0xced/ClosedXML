@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ClosedXML.Excel;
 
 namespace ClosedXML.Tests
 {
@@ -156,7 +157,7 @@ namespace ClosedXML.Tests
             if (ignoreGuids)
                 s = RemoveGuids(s);
 
-            return s;
+            return s.FixNewLines();
         }
 
         private static IEnumerable<KeyValuePair<string, Regex>> uriSpecificIgnores = new List<KeyValuePair<string, Regex>>()
