@@ -15,6 +15,10 @@ namespace ClosedXML.Excel.Drawings
         /// </summary>
         XLPictureFormat Format { get; }
 
+        Double DpiX { get; }
+
+        Double DpiY { get; }
+
         Int32 Height { get; set; }
 
         Int32 Id { get; }

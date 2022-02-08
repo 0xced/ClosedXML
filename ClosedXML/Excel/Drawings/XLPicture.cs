@@ -11,6 +11,7 @@ using SixLabors.ImageSharp.Formats.Gif;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Tiff;
+using SixLabors.ImageSharp.Metadata;
 
 namespace ClosedXML.Excel.Drawings
 {
@@ -134,6 +135,10 @@ namespace ClosedXML.Excel.Drawings
         }
 
         public XLPictureFormat Format { get; private set; } = XLPictureFormat.Unknown;
+
+        public Double DpiX { get; private set; } = ImageMetadata.DefaultHorizontalResolution;
+
+        public Double DpiY { get; private set; } = ImageMetadata.DefaultVerticalResolution;
 
         public Int32 Height
         {
@@ -414,6 +419,28 @@ namespace ClosedXML.Excel.Drawings
 
         private void DeduceDimensionsFromImage(Image image)
         {
+            switch (image.Metadata.ResolutionUnits)
+            {
+                case PixelResolutionUnit.AspectRatio:
+                    this.DpiX = ImageMetadata.DefaultHorizontalResolution;
+                    this.DpiY = ImageMetadata.DefaultVerticalResolution;
+                    break;
+                case PixelResolutionUnit.PixelsPerInch:
+                    this.DpiX = Math.Round(image.Metadata.HorizontalResolution);
+                    this.DpiY = Math.Round(image.Metadata.VerticalResolution);
+                    break;
+                case PixelResolutionUnit.PixelsPerCentimeter:
+                    this.DpiX = Math.Round(image.Metadata.HorizontalResolution * 2.54);
+                    this.DpiY = Math.Round(image.Metadata.VerticalResolution * 2.54);
+                    break;
+                case PixelResolutionUnit.PixelsPerMeter:
+                    this.DpiX = Math.Round(image.Metadata.HorizontalResolution * 0.0254);
+                    this.DpiY = Math.Round(image.Metadata.VerticalResolution * 0.0254);
+                    break;
+                default:
+                    throw new NotImplementedException(nameof(image.Metadata.ResolutionUnits));
+            }
+
             this.OriginalWidth = image.Width;
             this.OriginalHeight = image.Height;
 
