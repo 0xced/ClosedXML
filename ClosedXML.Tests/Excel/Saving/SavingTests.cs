@@ -242,6 +242,7 @@ namespace ClosedXML.Tests.Excel.Saving
         }
 
         [Test]
+        [Platform("win", Reason = "FileAttributes.ReadOnly is only supported on Windows")]
         public void CannotSaveAsOverwriteExistingReadOnlyFile()
         {
             using (var existing = new TemporaryFile())
