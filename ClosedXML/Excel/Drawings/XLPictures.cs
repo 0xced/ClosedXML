@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
 
 namespace ClosedXML.Excel.Drawings
 {
@@ -57,17 +58,17 @@ namespace ClosedXML.Excel.Drawings
             return picture;
         }
 
-        public IXLPicture Add(Bitmap bitmap)
+        public IXLPicture Add(Image image, IImageFormat imageFormat)
         {
-            var picture = new XLPicture(_worksheet, bitmap);
+            var picture = new XLPicture(_worksheet, image, imageFormat);
             _pictures.Add(picture);
             picture.Name = GetNextPictureName();
             return picture;
         }
 
-        public IXLPicture Add(Bitmap bitmap, string name)
+        public IXLPicture Add(Image image, IImageFormat imageFormat, string name)
         {
-            var picture = Add(bitmap);
+            var picture = Add(image, imageFormat);
             picture.Name = name;
             return picture;
         }

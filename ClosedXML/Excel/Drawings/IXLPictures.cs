@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
 
 namespace ClosedXML.Excel.Drawings
 {
@@ -17,9 +18,9 @@ namespace ClosedXML.Excel.Drawings
 
         IXLPicture Add(Stream stream, XLPictureFormat format, String name);
 
-        IXLPicture Add(Bitmap bitmap);
+        IXLPicture Add(Image image, IImageFormat imageFormat);
 
-        IXLPicture Add(Bitmap bitmap, String name);
+        IXLPicture Add(Image image, IImageFormat imageFormat, String name);
 
         IXLPicture Add(String imageFile);
 

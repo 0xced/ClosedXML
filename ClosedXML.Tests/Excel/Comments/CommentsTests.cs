@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
+using ClosedXML.Extensions;
 
 namespace ClosedXML.Tests.Excel.Comments
 {
@@ -22,7 +23,7 @@ namespace ClosedXML.Tests.Excel.Comments
                 Assert.AreEqual(XLColorType.Indexed, xlColor.ColorType);
                 Assert.AreEqual(81, xlColor.Indexed);
 
-                var color = xlColor.Color.ToHex();
+                var color = xlColor.Color.ToArgbHex();
                 Assert.AreEqual("FF000000", color);
             }
         }

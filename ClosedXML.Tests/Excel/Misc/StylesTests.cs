@@ -1,4 +1,5 @@
 using ClosedXML.Excel;
+using ClosedXML.Extensions;
 using NUnit.Framework;
 
 namespace ClosedXML.Tests.Excel.Misc
@@ -67,10 +68,10 @@ namespace ClosedXML.Tests.Excel.Misc
             using (var wb = new XLWorkbook())
             {
                 string color;
-                color = wb.Theme.ResolveThemeColor(XLThemeColor.Accent1).Color.ToHex();
+                color = wb.Theme.ResolveThemeColor(XLThemeColor.Accent1).Color.ToArgbHex();
                 Assert.AreEqual("FF4F81BD", color);
 
-                color = wb.Theme.ResolveThemeColor(XLThemeColor.Background1).Color.ToHex();
+                color = wb.Theme.ResolveThemeColor(XLThemeColor.Background1).Color.ToArgbHex();
                 Assert.AreEqual("FFFFFFFF", color);
             }
         }

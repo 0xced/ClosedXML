@@ -1,8 +1,9 @@
 using ClosedXML.Excel.Caching;
-using ClosedXML.Utils;
+using ClosedXML.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace ClosedXML.Excel
 {
@@ -30,34 +31,41 @@ namespace ClosedXML.Excel
 
         public static XLColor FromArgb(Int32 argb)
         {
-            return FromColor(Color.FromArgb(argb));
+            return FromColor(ColorExtensions.FromArgb(argb));
         }
 
         public static XLColor FromArgb(Int32 r, Int32 g, Int32 b)
         {
-            return FromColor(Color.FromArgb(r, g, b));
+            if (r < 0) throw new ArgumentException("The red value can't be smaller than 0", nameof(r));
+            if (g < 0) throw new ArgumentException("The green value can't be smaller than 0", nameof(g));
+            if (b < 0) throw new ArgumentException("The blue value can't be smaller than 0", nameof(b));
+            if (r > byte.MaxValue) throw new ArgumentException($"The red value can't be greater than {byte.MaxValue}", nameof(r));
+            if (g > byte.MaxValue) throw new ArgumentException($"The green value can't be greater than {byte.MaxValue}", nameof(g));
+            if (b > byte.MaxValue) throw new ArgumentException($"The blue value can't be greater than {byte.MaxValue}", nameof(b));
+            return FromColor(new Rgba32((byte)r, (byte)g, (byte)b, byte.MaxValue));
         }
 
         public static XLColor FromArgb(Int32 a, Int32 r, Int32 g, Int32 b)
         {
-            return FromColor(Color.FromArgb(a, r, g, b));
+            if (a < 0) throw new ArgumentException("The alpha value can't be smaller than 0", nameof(a));
+            if (r < 0) throw new ArgumentException("The red value can't be smaller than 0", nameof(r));
+            if (g < 0) throw new ArgumentException("The green value can't be smaller than 0", nameof(g));
+            if (b < 0) throw new ArgumentException("The blue value can't be smaller than 0", nameof(b));
+            if (a > byte.MaxValue) throw new ArgumentException($"The alpha value can't be greater than {byte.MaxValue}", nameof(a));
+            if (r > byte.MaxValue) throw new ArgumentException($"The red value can't be greater than {byte.MaxValue}", nameof(r));
+            if (g > byte.MaxValue) throw new ArgumentException($"The green value can't be greater than {byte.MaxValue}", nameof(g));
+            if (b > byte.MaxValue) throw new ArgumentException($"The blue value can't be greater than {byte.MaxValue}", nameof(b));
+            return FromColor(new Rgba32((byte)r, (byte)g, (byte)b, (byte)a));
         }
-
-#if NETFRAMEWORK
-        public static XLColor FromKnownColor(KnownColor color)
-        {
-            return FromColor(Color.FromKnownColor(color));
-        }
-#endif
 
         public static XLColor FromName(String name)
         {
-            return FromColor(Color.FromName(name));
+            return FromColor(Color.Parse(name));
         }
 
         public static XLColor FromHtml(String htmlColor)
         {
-            return FromColor(ColorStringParser.ParseFromHtml(htmlColor));
+            return FromColor(ColorExtensions.ParseArgbHex(htmlColor));
         }
 
         public static XLColor FromIndex(Int32 index)

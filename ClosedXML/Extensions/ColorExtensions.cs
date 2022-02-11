@@ -1,37 +1,41 @@
-// Keep this file CodeMaid organised and cleaned
-using System;
-using System.Drawing;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
-namespace ClosedXML.Excel
+namespace ClosedXML.Extensions
 {
     internal static class ColorExtensions
     {
-        private static readonly char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-
-        public static String ToHex(this Color color)
+        public static string ToArgbHex(this Color color)
         {
-            byte[] bytes = new byte[4];
+            Rgba32 rgba = color;
+            return ((uint) (rgba.B | rgba.G << 8 | rgba.R << 16 | rgba.A << 24)).ToString("X8");
+        }
 
-            bytes[0] = color.A;
+        public static string ToRgbHex(this Color color)
+        {
+            Rgba32 rgba = color;
+            return ((uint) (rgba.B | rgba.G << 8 | rgba.R << 16)).ToString("X6");
+        }
 
-            bytes[1] = color.R;
-
-            bytes[2] = color.G;
-
-            bytes[3] = color.B;
-
-            char[] chars = new char[bytes.Length * 2];
-
-            for (int i = 0; i < bytes.Length; i++)
+        public static Color ParseArgbHex(string argbHex)
+        {
+            var color = Color.ParseHex(argbHex);
+            if (argbHex.Length == 8 || argbHex.Length == 9)
             {
-                int b = bytes[i];
-
-                chars[i * 2] = hexDigits[b >> 4];
-
-                chars[i * 2 + 1] = hexDigits[b & 0xF];
+                // The input format is aarrggbb but was parsed as rrggbbaa, so the components must be swapped
+                Rgba32 rgba = color;
+                return new Rgba32(r: rgba.G, g: rgba.B, b: rgba.A, a: rgba.R);
             }
+            return color;
+        }
 
-            return new string(chars);
+        public static Color FromArgb(int argb)
+        {
+            var a = (byte)((argb & 0xFF000000) >> 24);
+            var r = (byte)((argb & 0x00FF0000) >> 16);
+            var g = (byte)((argb & 0x0000FF00) >>  8);
+            var b = (byte)(argb & 0x000000FF);
+            return Color.FromRgba(r, g, b, a);
         }
     }
 }

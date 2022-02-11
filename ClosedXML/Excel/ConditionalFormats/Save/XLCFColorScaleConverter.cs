@@ -1,3 +1,4 @@
+using ClosedXML.Extensions;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 
@@ -29,7 +30,7 @@ namespace ClosedXML.Excel
                 switch (xlColor.ColorType)
                 {
                     case XLColorType.Color:
-                        color.Rgb = xlColor.Color.ToHex();
+                        color.Rgb = xlColor.Color.ToArgbHex();
                         break;
                     case XLColorType.Theme:
                         color.Theme = System.Convert.ToUInt32(xlColor.ThemeColor);

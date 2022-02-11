@@ -2,7 +2,7 @@ using ClosedXML.Excel;
 using ClosedXML.Utils;
 using DocumentFormat.OpenXml.Spreadsheet;
 using NUnit.Framework;
-using Color = System.Drawing.Color;
+using Color = SixLabors.ImageSharp.Color;
 using X14 = DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace ClosedXML.Tests.Excel

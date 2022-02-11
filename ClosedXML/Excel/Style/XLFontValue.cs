@@ -20,7 +20,7 @@ namespace ClosedXML.Excel
             Strikethrough = false,
             VerticalAlignment = XLFontVerticalTextAlignmentValues.Baseline,
             FontSize = 11,
-            FontColor = XLColor.FromArgb(0, 0, 0).Key,
+            FontColor = XLColor.Black.Key,
             FontName = "Calibri",
             FontFamilyNumbering = XLFontFamilyNumberingValues.Swiss,
             FontCharSet = XLFontCharSet.Default

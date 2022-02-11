@@ -21,7 +21,7 @@ namespace ClosedXML.Excel
     using Ap;
     using Drawings;
     using Op;
-    using System.Drawing;
+    using SixLabors.ImageSharp;
 
     public partial class XLWorkbook
     {

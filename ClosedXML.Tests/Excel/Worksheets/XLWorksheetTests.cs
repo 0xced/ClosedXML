@@ -2,10 +2,10 @@ using ClosedXML.Excel;
 using ClosedXML.Excel.Drawings;
 using NUnit.Framework;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using SixLabors.ImageSharp;
 
 namespace ClosedXML.Tests
 {
@@ -715,12 +715,12 @@ namespace ClosedXML.Tests
             using (var ms = new MemoryStream())
             using (var resourceStream = Assembly.GetAssembly(typeof(ClosedXML.Examples.BasicTable))
                 .GetManifestResourceStream("ClosedXML.Examples.Resources.SampleImage.jpg"))
-            using (var bitmap = Bitmap.FromStream(resourceStream) as Bitmap)
+            using (var image = Image.Load(resourceStream, out var imageFormat))
             using (var wb1 = new XLWorkbook())
             {
                 var ws1 = wb1.Worksheets.Add("Original");
 
-                var picture = ws1.AddPicture(bitmap, "MyPicture")
+                var picture = ws1.AddPicture(image, imageFormat, "MyPicture")
                     .WithPlacement(XLPicturePlacement.FreeFloating)
                     .MoveTo(50, 50)
                     .WithSize(200, 200);

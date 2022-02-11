@@ -2,11 +2,11 @@ using ClosedXML.Excel;
 using ClosedXML.Excel.Drawings;
 using NUnit.Framework;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp;
 
 namespace ClosedXML.Tests
 {
@@ -21,9 +21,9 @@ namespace ClosedXML.Tests
                 var ws = wb.AddWorksheet("Sheet1");
 
                 using (var resourceStream = Assembly.GetAssembly(typeof(ClosedXML.Examples.BasicTable)).GetManifestResourceStream("ClosedXML.Examples.Resources.SampleImage.jpg"))
-                using (var bitmap = Bitmap.FromStream(resourceStream) as Bitmap)
+                using (var image = Image.Load(resourceStream, out var imageFormat))
                 {
-                    var picture = ws.AddPicture(bitmap, "MyPicture")
+                    var picture = ws.AddPicture(image, imageFormat, "MyPicture")
                         .WithPlacement(XLPicturePlacement.FreeFloating)
                         .MoveTo(50, 50)
                         .WithSize(200, 200);
@@ -467,7 +467,7 @@ namespace ClosedXML.Tests
             }
         }
 
-        [Test]
+        [Test, Ignore("The EMF file format is not supported by ImageSharp, it was supported by System.Drawing")]
         public void CanCopyEmfPicture()
         {
             // #1621 - There are 2 Bmp Guids: ImageFormat.Bmp and ImageFormat.MemoryBmp

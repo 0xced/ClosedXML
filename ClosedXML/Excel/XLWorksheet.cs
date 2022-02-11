@@ -4,9 +4,10 @@ using ClosedXML.Excel.Drawings;
 using ClosedXML.Excel.Ranges.Index;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
 using static ClosedXML.Excel.XLProtectionAlgorithm;
 
 namespace ClosedXML.Excel
@@ -1792,14 +1793,14 @@ namespace ClosedXML.Excel
             return Pictures.Add(stream, format, name);
         }
 
-        public IXLPicture AddPicture(Bitmap bitmap)
+        public IXLPicture AddPicture(Image image, IImageFormat imageFormat)
         {
-            return Pictures.Add(bitmap);
+            return Pictures.Add(image, imageFormat);
         }
 
-        public IXLPicture AddPicture(Bitmap bitmap, string name)
+        public IXLPicture AddPicture(Image image, IImageFormat imageFormat, string name)
         {
-            return Pictures.Add(bitmap, name);
+            return Pictures.Add(image, imageFormat, name);
         }
 
         public IXLPicture AddPicture(string imageFile)

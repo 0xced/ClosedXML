@@ -48,12 +48,12 @@ namespace ClosedXML.Excel
                 cfMax.Append(new Formula() { Text = cf.Values[2].Value });
             }
 
-            var barAxisColor = new BarAxisColor { Rgb = XLColor.Black.Color.ToHex() };
+            var barAxisColor = new BarAxisColor { Rgb = XLColor.Black.Color.ToArgbHex() };
 
-            var negativeFillColor = new NegativeFillColor { Rgb = cf.Colors[1].Color.ToHex() };
+            var negativeFillColor = new NegativeFillColor { Rgb = cf.Colors[1].Color.ToArgbHex() };
             if (cf.Colors.Count == 2)
             {
-                negativeFillColor = new NegativeFillColor { Rgb = cf.Colors[2].Color.ToHex() };
+                negativeFillColor = new NegativeFillColor { Rgb = cf.Colors[2].Color.ToArgbHex() };
             }
 
             dataBar.Append(cfMin);

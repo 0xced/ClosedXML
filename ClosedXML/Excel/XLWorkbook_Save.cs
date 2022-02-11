@@ -1216,7 +1216,7 @@ namespace ClosedXML.Excel
             var systemColor1 = new SystemColor
             {
                 Val = SystemColorValues.WindowText,
-                LastColor = Theme.Text1.Color.ToHex().Substring(2)
+                LastColor = Theme.Text1.Color.ToRgbHex()
             };
 
             dark1Color1.AppendChild(systemColor1);
@@ -1225,58 +1225,58 @@ namespace ClosedXML.Excel
             var systemColor2 = new SystemColor
             {
                 Val = SystemColorValues.Window,
-                LastColor = Theme.Background1.Color.ToHex().Substring(2)
+                LastColor = Theme.Background1.Color.ToRgbHex()
             };
 
             light1Color1.AppendChild(systemColor2);
 
             var dark2Color1 = new Dark2Color();
-            var rgbColorModelHex1 = new RgbColorModelHex { Val = Theme.Text2.Color.ToHex().Substring(2) };
+            var rgbColorModelHex1 = new RgbColorModelHex { Val = Theme.Text2.Color.ToRgbHex() };
 
             dark2Color1.AppendChild(rgbColorModelHex1);
 
             var light2Color1 = new Light2Color();
-            var rgbColorModelHex2 = new RgbColorModelHex { Val = Theme.Background2.Color.ToHex().Substring(2) };
+            var rgbColorModelHex2 = new RgbColorModelHex { Val = Theme.Background2.Color.ToRgbHex() };
 
             light2Color1.AppendChild(rgbColorModelHex2);
 
             var accent1Color1 = new Accent1Color();
-            var rgbColorModelHex3 = new RgbColorModelHex { Val = Theme.Accent1.Color.ToHex().Substring(2) };
+            var rgbColorModelHex3 = new RgbColorModelHex { Val = Theme.Accent1.Color.ToRgbHex() };
 
             accent1Color1.AppendChild(rgbColorModelHex3);
 
             var accent2Color1 = new Accent2Color();
-            var rgbColorModelHex4 = new RgbColorModelHex { Val = Theme.Accent2.Color.ToHex().Substring(2) };
+            var rgbColorModelHex4 = new RgbColorModelHex { Val = Theme.Accent2.Color.ToRgbHex() };
 
             accent2Color1.AppendChild(rgbColorModelHex4);
 
             var accent3Color1 = new Accent3Color();
-            var rgbColorModelHex5 = new RgbColorModelHex { Val = Theme.Accent3.Color.ToHex().Substring(2) };
+            var rgbColorModelHex5 = new RgbColorModelHex { Val = Theme.Accent3.Color.ToRgbHex() };
 
             accent3Color1.AppendChild(rgbColorModelHex5);
 
             var accent4Color1 = new Accent4Color();
-            var rgbColorModelHex6 = new RgbColorModelHex { Val = Theme.Accent4.Color.ToHex().Substring(2) };
+            var rgbColorModelHex6 = new RgbColorModelHex { Val = Theme.Accent4.Color.ToRgbHex() };
 
             accent4Color1.AppendChild(rgbColorModelHex6);
 
             var accent5Color1 = new Accent5Color();
-            var rgbColorModelHex7 = new RgbColorModelHex { Val = Theme.Accent5.Color.ToHex().Substring(2) };
+            var rgbColorModelHex7 = new RgbColorModelHex { Val = Theme.Accent5.Color.ToRgbHex() };
 
             accent5Color1.AppendChild(rgbColorModelHex7);
 
             var accent6Color1 = new Accent6Color();
-            var rgbColorModelHex8 = new RgbColorModelHex { Val = Theme.Accent6.Color.ToHex().Substring(2) };
+            var rgbColorModelHex8 = new RgbColorModelHex { Val = Theme.Accent6.Color.ToRgbHex() };
 
             accent6Color1.AppendChild(rgbColorModelHex8);
 
             var hyperlink1 = new DocumentFormat.OpenXml.Drawing.Hyperlink();
-            var rgbColorModelHex9 = new RgbColorModelHex { Val = Theme.Hyperlink.Color.ToHex().Substring(2) };
+            var rgbColorModelHex9 = new RgbColorModelHex { Val = Theme.Hyperlink.Color.ToRgbHex() };
 
             hyperlink1.AppendChild(rgbColorModelHex9);
 
             var followedHyperlinkColor1 = new FollowedHyperlinkColor();
-            var rgbColorModelHex10 = new RgbColorModelHex { Val = Theme.FollowedHyperlink.Color.ToHex().Substring(2) };
+            var rgbColorModelHex10 = new RgbColorModelHex { Val = Theme.FollowedHyperlink.Color.ToRgbHex() };
 
             followedHyperlinkColor1.AppendChild(rgbColorModelHex10);
 
@@ -3268,7 +3268,7 @@ namespace ClosedXML.Excel
             // Unique per cell (workbook?), e.g.: "_x0000_s1026"
             var anchor = GetAnchor(c);
             var textBox = GetTextBox(comment.Style);
-            var fill = new Vml.Fill { Color2 = "#" + comment.Style.ColorsAndLines.FillColor.Color.ToHex().Substring(2) };
+            var fill = new Vml.Fill { Color2 = "#" + comment.Style.ColorsAndLines.FillColor.Color.ToRgbHex() };
             if (comment.Style.ColorsAndLines.FillTransparency < 1)
                 fill.Opacity =
                     Math.Round(Convert.ToDouble(comment.Style.ColorsAndLines.FillTransparency), 2).ToInvariantString();
@@ -3302,8 +3302,8 @@ namespace ClosedXML.Excel
                 Id = shapeId,
                 Type = "#" + XLConstants.Comment.ShapeTypeId,
                 Style = GetCommentStyle(c),
-                FillColor = "#" + comment.Style.ColorsAndLines.FillColor.Color.ToHex().Substring(2),
-                StrokeColor = "#" + comment.Style.ColorsAndLines.LineColor.Color.ToHex().Substring(2),
+                FillColor = "#" + comment.Style.ColorsAndLines.FillColor.Color.ToRgbHex(),
+                StrokeColor = "#" + comment.Style.ColorsAndLines.LineColor.Color.ToRgbHex(),
                 StrokeWeight = String.Concat(comment.Style.ColorsAndLines.LineWeight.ToInvariantString(), "pt"),
                 InsetMode = comment.Style.Margins.Automatic ? InsetMarginValues.Auto : InsetMarginValues.Custom
             };
@@ -3442,7 +3442,7 @@ namespace ClosedXML.Excel
                     };
 
                     var moveAndSizeToMarker = pic.Markers[Drawings.XLMarkerPosition.BottomRight];
-                    if (moveAndSizeToMarker == null) moveAndSizeToMarker = new Drawings.XLMarker(picture.Worksheet.Cell("A1"), new System.Drawing.Point(picture.Width, picture.Height));
+                    if (moveAndSizeToMarker == null) moveAndSizeToMarker = new Drawings.XLMarker(picture.Worksheet.Cell("A1"), new SixLabors.ImageSharp.Point(picture.Width, picture.Height));
                     tMark = new Xdr.ToMarker
                     {
                         ColumnId = new Xdr.ColumnId((moveAndSizeToMarker.ColumnNumber - 1).ToInvariantString()),
@@ -5585,7 +5585,7 @@ namespace ClosedXML.Excel
                     sparklineGroup.Type = xlSparklineGroup.Type.ToOpenXml();
                     sparklineGroup.DisplayEmptyCellsAs = xlSparklineGroup.DisplayEmptyCellsAs.ToOpenXml();
 
-                    sparklineGroup.AxisColor = new X14.AxisColor() { Rgb = xlSparklineGroup.HorizontalAxis.Color.Color.ToHex() };
+                    sparklineGroup.AxisColor = new X14.AxisColor() { Rgb = xlSparklineGroup.HorizontalAxis.Color.Color.ToArgbHex() };
                     sparklineGroup.DisplayXAxis = xlSparklineGroup.HorizontalAxis.IsVisible;
                     sparklineGroup.RightToLeft = xlSparklineGroup.HorizontalAxis.RightToLeft;
                     sparklineGroup.DateAxis = xlSparklineGroup.HorizontalAxis.DateAxis;

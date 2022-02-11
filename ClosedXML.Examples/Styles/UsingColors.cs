@@ -1,6 +1,6 @@
 using System;
-using System.Drawing;
 using ClosedXML.Excel;
+using SixLabors.ImageSharp;
 
 
 namespace ClosedXML.Examples.Styles

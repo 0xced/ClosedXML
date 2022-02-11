@@ -15,12 +15,12 @@ namespace ClosedXML.Excel
 
             var conditionalFormatValueObject1 = GetConditionalFormatValueObjectByIndex(cf, 1, ConditionalFormatValueObjectValues.Min);
             var conditionalFormatValueObject2 = GetConditionalFormatValueObjectByIndex(cf, 2, ConditionalFormatValueObjectValues.Max);
-            
+
             var color = new Color();
             switch (cf.Colors[1].ColorType)
             {
                 case XLColorType.Color:
-                    color.Rgb = cf.Colors[1].Color.ToHex();
+                    color.Rgb = cf.Colors[1].Color.ToArgbHex();
                     break;
 
                 case XLColorType.Theme:

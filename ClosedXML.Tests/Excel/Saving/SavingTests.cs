@@ -5,12 +5,12 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using NUnit.Framework;
 using System;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using SixLabors.ImageSharp;
 
 namespace ClosedXML.Tests.Excel.Saving
 {
@@ -305,12 +305,12 @@ namespace ClosedXML.Tests.Excel.Saving
             using (var ms = new MemoryStream())
             using (var wb = new XLWorkbook())
             using (var resourceStream = Assembly.GetAssembly(typeof(ClosedXML.Examples.BasicTable)).GetManifestResourceStream("ClosedXML.Examples.Resources.SampleImage.jpg"))
-            using (var bitmap = Bitmap.FromStream(resourceStream) as Bitmap)
+            using (var image = Image.Load(resourceStream, out var imageFormat))
             {
                 var ws = wb.AddWorksheet("Sheet1");
                 ws.Cell("D4").Value = "Hello world.";
 
-                ws.AddPicture(bitmap, "MyPicture")
+                ws.AddPicture(image, imageFormat, "MyPicture")
                     .WithPlacement(XLPicturePlacement.FreeFloating)
                     .MoveTo(50, 50)
                     .WithSize(200, 200);
