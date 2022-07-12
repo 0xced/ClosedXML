@@ -102,6 +102,8 @@ internal class WorksheetPartReader
                     LoadExtensions((WorksheetExtensionList)reader.LoadCurrentElement(), ws);
                 else if (reader.ElementType == typeof(LegacyDrawing))
                     ws.LegacyDrawingId = (reader.LoadCurrentElement() as LegacyDrawing).Id.Value;
+                else if (reader.ElementType == typeof(IgnoredErrors))
+                    LoadIgnoredErrors((IgnoredErrors)reader.LoadCurrentElement(), ws);
             }
             reader.Close();
         }
@@ -750,6 +752,16 @@ internal class WorksheetPartReader
                 // Technically, there could be more than one sparkline per cell, so use Set instead of Add.
                 xlSparklineGroup.SetSparkline(location, sparkline.Formula?.Text);
             }
+        }
+    }
+
+    private static void LoadIgnoredErrors(IgnoredErrors ignoredErrors, XLWorksheet ws)
+    {
+        if (ignoredErrors == null) return;
+
+        foreach (var ignoredError in ignoredErrors.Descendants<IgnoredError>())
+        {
+            XLIgnoredErrorOpenXmlMapper.AddIgnoredErrorFromOpenXml(ws, ignoredError);
         }
     }
 

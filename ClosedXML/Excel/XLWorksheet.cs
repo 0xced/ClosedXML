@@ -63,6 +63,7 @@ namespace ClosedXML.Excel
             Pictures = new XLPictures(this);
             DefinedNames = new XLDefinedNames(this);
             SheetView = new XLSheetView(this);
+            IgnoredErrors = new XLIgnoredErrors(this);
             Tables = new XLTables();
             Hyperlinks = new XLHyperlinks(this);
             DataValidations = new XLDataValidations(this);
@@ -577,6 +578,10 @@ namespace ClosedXML.Excel
 
         public XLSheetView SheetView { get; private set; }
 
+        IXLIgnoredErrors IXLWorksheet.IgnoredErrors { get => IgnoredErrors; }
+
+        public XLIgnoredErrors IgnoredErrors { get; private set; }
+
         IXLTables IXLWorksheet.Tables => Tables;
 
         internal XLTables Tables { get; }
@@ -638,6 +643,7 @@ namespace ClosedXML.Excel
             ((XLHeaderFooter)targetSheet.PageSetup.Footer).Changed = true;
             targetSheet.Outline = new XLOutline(Outline);
             targetSheet.SheetView = new XLSheetView(targetSheet, SheetView);
+            targetSheet.IgnoredErrors = new XLIgnoredErrors(targetSheet, IgnoredErrors);
             targetSheet.SelectedRanges.RemoveAll();
 
             foreach (var picture in Pictures)
@@ -1246,7 +1252,7 @@ namespace ClosedXML.Excel
                 }
             }
         }
-        
+
         internal override void WorksheetRangeShiftedRows(XLRange range, int rowsShifted)
         {
             if (!range.IsEntireRow())
