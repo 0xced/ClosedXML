@@ -7,7 +7,7 @@ namespace ClosedXML.Excel
     {
         public static Double SaveRound(this Double value)
         {
-            return Math.Round(value, 6);
+            return Math.Round(value, 2);
         }
     }
 }

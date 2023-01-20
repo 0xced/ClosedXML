@@ -42,10 +42,7 @@ namespace ClosedXML.Excel
             var textOptions = GetCachedTextOptions(fontBase, textOptionsCache);
             var textWidth = TextMeasurer.Measure(text, textOptions).Width;
 
-            double width = (textWidth / 7d * 256 - 128 / 7) / 256;
-            width = Math.Round(width + 0.2, 2);
-
-            return width;
+            return Math.Round((textWidth / 7d * 256 - 128 / 7) / 256 + 0.2, 2);
         }
 
         private static TextOptions GetCachedTextOptions(IXLFontBase fontBase, Dictionary<IXLFontBase, TextOptions> textOptionsCache)

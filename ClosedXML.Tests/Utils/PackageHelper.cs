@@ -356,7 +356,7 @@ namespace ClosedXML.Tests
                     leftMemoryStream.Seek(0, SeekOrigin.Begin);
                     rightMemoryStream.Seek(0, SeekOrigin.Begin);
 
-                    bool stripColumnWidthsFromSheet = TestHelper.StripColumnWidths &&
+                    bool stripColumnWidthsFromSheet =
                         leftPart.ContentType == @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml" &&
                         rightPart.ContentType == @"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml";
 
