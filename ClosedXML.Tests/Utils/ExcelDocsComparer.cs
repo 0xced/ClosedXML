@@ -11,16 +11,16 @@ namespace ClosedXML.Tests
             using (FileStream leftStream = File.OpenRead(left))
             using (FileStream rightStream = File.OpenRead(right))
             {
-                return Compare(leftStream, rightStream, out message);
+                return Compare(leftStream, rightStream, right, out message);
             }
         }
 
-        public static bool Compare(Stream left, Stream right, out string message)
+        public static bool Compare(Stream left, Stream right, string resource, out string message)
         {
             using (Package leftPackage = Package.Open(left, FileMode.Open, FileAccess.Read))
             using (Package rightPackage = Package.Open(right, FileMode.Open, FileAccess.Read))
             {
-                return PackageHelper.Compare(leftPackage, rightPackage, false, ExcludeMethod, out message);
+                return PackageHelper.Compare(leftPackage, rightPackage, Path.GetFileNameWithoutExtension(resource), false, ExcludeMethod, out message);
             }
         }
 

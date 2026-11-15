@@ -6,7 +6,9 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Net.Mime;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
+using DiffEngine;
 
 namespace ClosedXML.Tests
 {
@@ -266,9 +268,9 @@ namespace ClosedXML.Tests
         /// <summary>
         ///     Compare to packages by parts like streams
         /// </summary>
-        public static bool Compare(Package left, Package right, bool compareToFirstDifference, out string message)
+        public static bool Compare(Package left, Package right, string resource, bool compareToFirstDifference, out string message)
         {
-            return Compare(left, right, compareToFirstDifference, null, out message);
+            return Compare(left, right, resource, compareToFirstDifference, null, out message);
         }
 
         /// <summary>
@@ -276,10 +278,11 @@ namespace ClosedXML.Tests
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
+        /// <param name="resource"></param>
         /// <param name="compareToFirstDifference"></param>
         /// <param name="excludeMethod"></param>
         /// <param name="message"></param>
-        public static bool Compare(Package left, Package right, bool compareToFirstDifference,
+        public static bool Compare(Package left, Package right, string resource, bool compareToFirstDifference,
             Func<Uri, bool> excludeMethod, out string message)
         {
             #region Check
@@ -357,6 +360,7 @@ namespace ClosedXML.Tests
 
                     if (!StreamHelper.Compare(tuple1, tuple2, pair.Uri, stripColumnWidthsFromSheet))
                     {
+                        RunDiff(tuple1, tuple2, pair, resource);
                         pair.Status = CompareStatus.NonEqual;
                         if (compareToFirstDifference)
                         {
@@ -381,6 +385,36 @@ namespace ClosedXML.Tests
             }
             message = sbuilder.ToString();
             return message.Length == 0;
+        }
+
+        private static void RunDiff((string ContentType, MemoryStream Stream) left, (string ContentType, MemoryStream Stream) right, PartPair pair, string resource)
+        {
+            var path = string.Join("_", pair.Uri.OriginalString.Split('/', StringSplitOptions.RemoveEmptyEntries));
+            var leftDirectory = Directory.CreateDirectory(Path.Combine(resource, "actual"));
+            var rightDirectory = Directory.CreateDirectory(Path.Combine(resource, "expected"));
+            var leftPath = Path.Combine(leftDirectory.FullName, path);
+            var rightPath = Path.Combine(rightDirectory.FullName, path);
+            WriteToFile(leftPath, left);
+            WriteToFile(rightPath, right);
+
+            DiffRunner.Launch(leftPath, rightPath);
+        }
+
+        private static void WriteToFile(string path, (string ContentType, MemoryStream Stream) tuple)
+        {
+            using var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read);
+            tuple.Stream.Position = 0;
+
+            if (tuple.ContentType.EndsWith("+xml"))
+            {
+                using var xmlReader = XmlReader.Create(tuple.Stream);
+                using var xmlWriter = XmlWriter.Create(fileStream, new XmlWriterSettings { Indent = true });
+                xmlWriter.WriteNode(xmlReader, true);
+            }
+            else
+            {
+                tuple.Stream.CopyTo(fileStream);
+            }
         }
 
         #region Nested type: PackagePartDescriptor
